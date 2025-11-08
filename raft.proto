@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+service Raft {
+    rpc VoteRequest (vote_4_me) returns (voted_4_u) {};
+    rpc AppendEntryRequest (appendEntry) returns (appendEntry_pending) {};
+    rpc heartbeatUpdate (heartbeat) returns ( heartbeat_response ) {};
+    rpc getVal (getVal_request) returns  (getVal_response) {};
+    rpc setVal (setVal_request) returns (setVal_response) {};
+    rpc suspend (suspend_request) returns (suspend_response) {};
+    rpc commitVal (commitVal_request) returns (commitVal_response) {};    
+    }
+    
+    
+message vote_4_me {
+   int32 source_node = 1;
+   int32 dst_node = 2;
+   int32 term = 3;
+}
+
+message voted_4_u {
+   int32 source_node = 1;
+   int32 dst_node = 2;
+   int32 term = 3;
+  
+   bool outcome = 7;
+}
+
+message appendEntry {
+   int32 source_node = 1;
+   int32 dst_node = 2;
+   int32 term = 3;
+    
+   string key = 4;
+   string value = 5;
+}
+
+message appendEntry_pending {
+   int32 source_node = 1;
+   int32 dst_node = 2;
+   int32 term = 3;
+   bool outcome = 4;
+}
+
+message heartbeat {
+   int32 source_node = 1;
+   int32 dst_node = 2;
+   int32 term = 3;
+}
+
+message heartbeat_response {
+   int32 source_node = 1;
+   int32 dst_node = 2;
+   int32 term = 3;
+}
+
+message commitVal_request {
+  int32 source_node = 1;
+  int32 dst_node = 2;
+  int32 term = 3;
+  
+  string key = 4;
+}
+
+message commitVal_response {
+  int32 source_node = 1;
+  int32 dst_node = 2;
+  int32 term = 3;
+  bool outcome = 4;
+}
+
+
+message suspend_request {
+   int32 temp = 1;
+}
+
+message suspend_response {
+  int32 temp = 1;
+}
+
+message getVal_request {
+   string key = 1;
+}
+
+message getVal_response {
+   string value = 1; 
+   bool outcome = 2;
+}
+
+message setVal_request {
+   string key = 1; 
+   string value = 2; 
+}
+
+message setVal_response {
+   bool outcome = 1; 
+}
+
